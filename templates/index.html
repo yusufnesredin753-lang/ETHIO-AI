@@ -1,0 +1,1487 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ETHIO AI - Professional Assistant</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            /* ALL CSS REMAINS EXACTLY THE SAME AS BEFORE */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            
+            body {
+                height: 100vh;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: #333;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .container {
+                width: 1400px;
+                height: 900px;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                overflow: hidden;
+                display: flex;
+            }
+            
+            .sidebar {
+                width: 260px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            
+            .logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+                border-bottom: 2px solid #f0f0f0;
+            }
+            
+            .logo i {
+                font-size: 28px;
+                color: #10a37f;
+                margin-right: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 22px;
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+            
+            .new-chat-btn {
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+                color: white;
+                border: none;
+                padding: 14px;
+                border-radius: 12px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(25, 195, 125, 0.3);
+            }
+            
+            .new-chat-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(25, 195, 125, 0.4);
+            }
+            
+            .new-chat-btn i {
+                margin-right: 8px;
+            }
+            
+            .search-container {
+                position: relative;
+                margin-bottom: 25px;
+            }
+            
+            .search-box {
+                width: 100%;
+                padding: 14px 45px 14px 45px;
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                font-size: 14px;
+                background: #f9fafb;
+                transition: all 0.3s ease;
+            }
+            
+            .search-box:focus {
+                outline: none;
+                border-color: #10a37f;
+                background: white;
+                box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+            }
+            
+            .search-icon {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #6b7280;
+                font-size: 16px;
+            }
+            
+            .menu-section {
+                margin-bottom: 25px;
+            }
+            
+            .menu-title {
+                font-size: 13px;
+                font-weight: 700;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 15px;
+                padding-left: 5px;
+            }
+            
+            .menu-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 15px;
+                margin-bottom: 5px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                color: #374151;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            
+            .menu-item:hover {
+                background: #f3f4f6;
+                transform: translateX(5px);
+            }
+            
+            .menu-item.active {
+                background: linear-gradient(45deg, rgba(16, 163, 127, 0.1), rgba(245, 7, 205, 0.1));
+                color: #10a37f;
+                font-weight: 600;
+            }
+            
+            .menu-item i {
+                margin-right: 12px;
+                font-size: 16px;
+                width: 20px;
+                text-align: center;
+            }
+            
+            .chat-history {
+                flex: 1;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            
+            .history-title {
+                font-size: 13px;
+                font-weight: 700;
+                color: #6b7280;
+                margin-bottom: 15px;
+                padding-left: 5px;
+            }
+            
+            .chat-item {
+                display: flex;
+                align-items: center;
+                padding: 12px 15px;
+                margin-bottom: 8px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: white;
+                border: 1px solid #f3f4f6;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+            }
+            
+            .chat-item:hover {
+                background: #f9fafb;
+                border-color: #e5e7eb;
+                transform: translateX(5px);
+            }
+            
+            .chat-item i {
+                margin-right: 10px;
+                color: #10a37f;
+                font-size: 12px;
+            }
+            
+            .chat-item span {
+                font-size: 14px;
+                color: #374151;
+                flex: 1;
+            }
+            
+            .main-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                background: white;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .chat-header {
+                padding: 25px 40px;
+                border-bottom: 1px solid #f0f0f0;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                z-index: 10;
+            }
+            
+            .chat-title {
+                font-size: 32px;
+                font-weight: 800;
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 8px;
+            }
+            
+            .chat-subtitle {
+                font-size: 18px;
+                color: #6b7280;
+                font-weight: 500;
+            }
+            
+            .chat-container {
+                flex: 1;
+                padding: 40px;
+                overflow-y: auto;
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            }
+            
+            .welcome-container {
+                max-width: 800px;
+                margin: 0 auto;
+                text-align: center;
+                padding-top: 160px;
+            }
+            
+            .ai-icon {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 30px;
+                box-shadow: 0 10px 30px rgba(245, 7, 205, 0.3);
+            }
+            
+            .ai-icon i {
+                font-size: 40px;
+                color: white;
+            }
+            
+            .welcome-title {
+                font-size: 42px;
+                font-weight: 800;
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 15px;
+                line-height: 1.2;
+            }
+            
+            .welcome-subtitle {
+                font-size: 22px;
+                color: #6b7280;
+                margin-bottom: 50px;
+                font-weight: 500;
+            }
+            
+            .input-container {
+                padding: 25px 40px;
+                background: white;
+                border-top: 1px solid #f0f0f0;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            }
+            
+            .input-wrapper {
+                position: relative;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            .message-input {
+                width: 100%;
+                min-height: 60px;
+                padding: 20px 70px 20px 25px;
+                border: 2px solid #e5e7eb;
+                border-radius: 16px;
+                font-size: 16px;
+                resize: none;
+                background: #f9fafb;
+                transition: all 0.3s ease;
+                line-height: 1.5;
+            }
+            
+            .message-input:focus {
+                outline: none;
+                border-color: #10a37f;
+                background: white;
+                box-shadow: 0 0 0 4px rgba(16, 163, 127, 0.1);
+            }
+            
+            .input-buttons {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                gap: 15px;
+            }
+            
+            .input-btn {
+                background: transparent;
+                border: none;
+                color: #6b7280;
+                font-size: 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                padding: 8px;
+                border-radius: 8px;
+            }
+            
+            .input-btn:hover {
+                color: #10a37f;
+                background: rgba(16, 163, 127, 0.1);
+            }
+            
+            .send-btn {
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+                color: white;
+                border: none;
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(25, 195, 125, 0.3);
+            }
+            
+            .send-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 6px 16px rgba(25, 195, 125, 0.4);
+            }
+            
+            .send-btn i {
+                font-size: 20px;
+            }
+            
+            .message {
+                max-width: 800px;
+                margin: 0 auto 30px;
+                display: flex;
+                animation: fadeIn 0.5s ease;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .user-message {
+                justify-content: flex-end;
+            }
+            
+            .ai-message {
+                justify-content: flex-start;
+            }
+            
+            .message-bubble {
+                max-width: 85%;
+                padding: 20px 25px;
+                border-radius: 20px;
+                position: relative;
+                line-height: 1.6;
+                font-size: 16px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            }
+            
+            .user-bubble {
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                color: white;
+                border-bottom-right-radius: 5px;
+            }
+            
+            .ai-bubble {
+                background: white;
+                color: #374151;
+                border-bottom-left-radius: 5px;
+                border: 1px solid #f0f0f0;
+            }
+            
+            .message-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 15px;
+                flex-shrink: 0;
+            }
+            
+            .user-avatar {
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+            }
+            
+            .ai-avatar {
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+            }
+            
+            .avatar-icon {
+                color: white;
+                font-size: 20px;
+            }
+            
+            body.dark-mode {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                color: #e0e0e0;
+            }
+            
+            body.dark-mode .container {
+                background: #1e1e2e;
+                color: #e0e0e0;
+            }
+            
+            body.dark-mode .sidebar {
+                background: rgba(30, 30, 46, 0.95);
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            body.dark-mode .logo i {
+                color: #19c37d;
+            }
+            
+            body.dark-mode .search-box {
+                background: #2d2d44;
+                border-color: #3d3d5c;
+                color: #e0e0e0;
+            }
+            
+            body.dark-mode .search-box:focus {
+                border-color: #19c37d;
+                background: #2d2d44;
+            }
+            
+            body.dark-mode .menu-item {
+                color: #cdd6f4;
+            }
+            
+            body.dark-mode .menu-item:hover {
+                background: #313244;
+            }
+            
+            body.dark-mode .menu-item.active {
+                background: linear-gradient(45deg, rgba(25, 195, 125, 0.2), rgba(245, 7, 205, 0.2));
+                color: #19c37d;
+            }
+            
+            body.dark-mode .chat-header {
+                background: #1e1e2e;
+                border-bottom: 1px solid #313244;
+            }
+            
+            body.dark-mode .chat-subtitle {
+                color: #a6adc8;
+            }
+            
+            body.dark-mode .chat-container {
+                background: linear-gradient(135deg, #181825 0%, #11111b 100%);
+            }
+            
+            body.dark-mode .ai-bubble {
+                background: #313244;
+                color: #cdd6f4;
+                border: 1px solid #45475a;
+            }
+            
+            body.dark-mode .input-container {
+                background: #1e1e2e;
+                border-top: 1px solid #313244;
+            }
+            
+            body.dark-mode .message-input {
+                background: #2d2d44;
+                border-color: #3d3d5c;
+                color: #e0e0e0;
+            }
+            
+            body.dark-mode .message-input:focus {
+                border-color: #19c37d;
+                background: #2d2d44;
+            }
+            
+            body.dark-mode .input-btn {
+                color: #a6adc8;
+            }
+            
+            body.dark-mode .input-btn:hover {
+                color: #19c37d;
+                background: rgba(25, 195, 125, 0.1);
+            }
+            
+            body.dark-mode .chat-item {
+                background: #313244;
+                border-color: #45475a;
+                color: #cdd6f4;
+            }
+            
+            body.dark-mode .chat-item:hover {
+                background: #45475a;
+                border-color: #585b70;
+            }
+            
+            body.dark-mode .chat-item span {
+                color: #cdd6f4;
+            }
+            
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(45deg, #f507cd, #0000f8);
+                border-radius: 4px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(45deg, #d406b5, #0000d4);
+            }
+            
+            body.dark-mode ::-webkit-scrollbar-track {
+                background: #2d2d44;
+            }
+            
+            body.dark-mode ::-webkit-scrollbar-thumb {
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+            }
+            
+            body.dark-mode ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(45deg, #16a26b, #0d8c68);
+            }
+            
+            .settings-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .settings-content {
+                background: white;
+                border-radius: 20px;
+                padding: 30px;
+                width: 500px;
+                max-width: 90%;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            }
+            
+            body.dark-mode .settings-content {
+                background: #1e1e2e;
+                color: #e0e0e0;
+            }
+            
+            .settings-title {
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 25px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .settings-option {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            body.dark-mode .settings-option {
+                border-bottom: 1px solid #313244;
+            }
+            
+            .settings-label {
+                font-size: 16px;
+                font-weight: 500;
+            }
+            
+            .toggle-switch {
+                position: relative;
+                width: 60px;
+                height: 30px;
+            }
+            
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            
+            .toggle-slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .4s;
+                border-radius: 34px;
+            }
+            
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: 22px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+            
+            input:checked + .toggle-slider {
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+            }
+            
+            input:checked + .toggle-slider:before {
+                transform: translateX(30px);
+            }
+            
+            .settings-close {
+                margin-top: 25px;
+                padding: 12px 24px;
+                background: linear-gradient(45deg, #19c37d, #10a37f);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                width: 100%;
+                transition: all 0.3s ease;
+            }
+            
+            .settings-close:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(25, 195, 125, 0.4);
+            }
+            
+            @media (max-width: 1024px) {
+                .sidebar {
+                    width: 220px;
+                }
+                
+                .welcome-title {
+                    font-size: 36px;
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .sidebar {
+                    display: none;
+                }
+                
+                .chat-header {
+                    padding: 20px;
+                }
+                
+                .chat-title {
+                    font-size: 24px;
+                }
+                
+                .welcome-title {
+                    font-size: 28px;
+                }
+            }
+            
+            .typing-indicator {
+                display: flex;
+                padding: 10px 15px;
+            }
+            
+            .typing-dot {
+                width: 8px;
+                height: 8px;
+                margin: 0 2px;
+                background: #10a37f;
+                border-radius: 50%;
+                animation: typing 1.4s infinite ease-in-out;
+            }
+            
+            .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+            .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+            .typing-dot:nth-child(3) { animation-delay: 0s; }
+            
+            @keyframes typing {
+                0%, 80%, 100% { transform: scale(0); }
+                40% { transform: scale(1); }
+            }
+            
+            body.dark-mode .typing-dot {
+                background: #19c37d;
+            }
+            
+            .status-indicator {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #10a37f;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                background: white;
+                border-radius: 50%;
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <h1>ETHIO AI</h1>
+                </div>
+                
+                <button class="new-chat-btn" onclick="newChat()">
+                    <i class="fas fa-plus"></i> New chat
+                </button>
+                
+                <div class="search-container">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" class="search-box" placeholder="Search chats" id="searchBox" oninput="searchChats()">
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-title">APPS</div>
+                    <div class="menu-item active" onclick="setActiveMenu(this)">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Chat</span>
+                    </div>
+                    <div class="menu-item" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </div>
+                </div>
+                
+                <div class="chat-history">
+                    <div class="history-title">RECENT CHATS</div>
+                    <div id="recentChatsList"></div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="chat-header">
+                    <h1 class="chat-title">ETHIO AI Assistant</h1>
+                    <p class="chat-subtitle">Professional AI for Everything - https://EthioAI.com</p>
+                </div>
+                
+                <div class="chat-container" id="chatContainer">
+                    <!-- Welcome Screen -->
+                    <div class="welcome-container" id="welcomeScreen">
+                        <div class="ai-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h1 class="welcome-title">Welcome to ETHIO AI</h1>
+                        <div style="margin-top: 30px; color: #6b7280; font-size: 16px;">
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages will be added here -->
+                    <div id="messagesContainer" style="display: none;"></div>
+                </div>
+                
+                <!-- Input Area -->
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Ask ETHIO AI anything..." 
+                            rows="1"
+                            onkeydown="handleKeyPress(event)"
+                        ></textarea>
+                        
+                        <div class="input-buttons">
+                            <button class="input-btn" title="Attach file">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button class="input-btn" title="Voice input">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button class="send-btn" onclick="sendMessage()" title="Send message">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Modal -->
+        <div class="settings-modal" id="settingsModal">
+            <div class="settings-content">
+                <div class="settings-title">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </div>
+                
+                <div class="settings-option">
+                    <div class="settings-label">
+                        <i class="fas fa-moon"></i> Dark Mode
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-option">
+                    <div class="settings-label">
+                        <i class="fas fa-sun"></i> Light Mode
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="lightModeToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-option">
+                    <div class="settings-label">
+                        <i class="fas fa-history"></i> Clear Chat History
+                    </div>
+                    <button class="input-btn" onclick="clearChatHistory()" title="Clear history">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                
+                <button class="settings-close" onclick="closeSettings()">
+                    Close Settings
+                </button>
+            </div>
+        </div>
+        
+        <!-- Status Indicator -->
+        <div class="status-indicator" id="statusIndicator">
+            <div class="status-dot"></div>
+            <span>ETHIO AI Online</span>
+        </div>
+        
+        <script>
+            // JavaScript for ETHIO AI
+            let currentChatId = null;
+            let messages = [];
+            let chatHistory = [];
+            
+             
+            // Load saved chats from localStorage
+            function loadSavedChats() {
+                const saved = localStorage.getItem('ethio_ai_chats');
+                if (saved) {
+                    chatHistory = JSON.parse(saved);
+                }
+                updateRecentChatsList();
+            }
+            
+            // Save chats to localStorage
+            function saveChats() {
+                localStorage.setItem('ethio_ai_chats', JSON.stringify(chatHistory));
+            }
+            
+            // Update recent chats list
+            function updateRecentChatsList() {
+                const recentChatsList = document.getElementById('recentChatsList');
+                recentChatsList.innerHTML = '';
+                
+                if (chatHistory.length === 0) {
+                    recentChatsList.innerHTML = `
+                        <div style="text-align: center; color: #6b7280; padding: 20px; font-size: 14px;">
+                            <i class="fas fa-comments" style="font-size: 24px; margin-bottom: 10px; display: block; color: #10a37f;"></i>
+                            No recent chats
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Show latest 10 chats
+                const recentChats = chatHistory.slice(-10).reverse();
+                
+                recentChats.forEach(chat => {
+                    const chatItem = document.createElement('div');
+                    chatItem.className = 'chat-item';
+                    chatItem.onclick = () => loadSavedChat(chat.id);
+                    
+                    // Extract first message as title
+                    const firstMessage = chat.messages.length > 0 ? 
+                        (chat.messages[0].text.length > 30 ? 
+                         chat.messages[0].text.substring(0, 30) + '...' : 
+                         chat.messages[0].text) : 'New Chat';
+                    
+                    chatItem.innerHTML = `
+                        <i class="fas fa-hashtag"></i>
+                        <span>${firstMessage}</span>
+                    `;
+                    
+                    recentChatsList.appendChild(chatItem);
+                });
+            }
+            
+            // Search chats function
+            function searchChats() {
+                const searchBox = document.getElementById('searchBox');
+                const query = searchBox.value.toLowerCase().trim();
+                const chatItems = document.querySelectorAll('.chat-item');
+                
+                chatItems.forEach(item => {
+                    const text = item.querySelector('span').textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            // New chat function
+            function newChat() {
+                console.log("🆕 NEW CHAT BUTTON CLICKED!");
+                
+                // Save current chat if it has messages
+                if (currentChatId !== null && messages.length > 0) {
+                    console.log("💾 Saving current chat before starting new one...");
+                    saveCurrentChat();
+                }
+                
+                // Create new chat ID
+                currentChatId = Date.now();
+                messages = [];
+                
+                console.log("🆕 New chat created with ID:", currentChatId);
+                
+                // Show welcome screen
+                document.getElementById('welcomeScreen').style.display = 'block';
+                document.getElementById('messagesContainer').style.display = 'none';
+                document.getElementById('messagesContainer').innerHTML = '';
+                
+                // Clear input
+                const messageInput = document.getElementById('messageInput');
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+                
+                // Clear search box
+                document.getElementById('searchBox').value = '';
+                const chatItems = document.querySelectorAll('.chat-item');
+                chatItems.forEach(item => {
+                    item.style.display = 'flex';
+                });
+                
+                // Reset menu active state
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                // Set chat menu as active
+                document.querySelectorAll('.menu-item')[0].classList.add('active');
+                
+                // Scroll to top
+                document.querySelector('.chat-container').scrollTop = 0;
+                
+                // Auto focus on message input with delay
+                setTimeout(() => {
+                    messageInput.focus();
+                }, 300);
+                
+                console.log("✅ New chat created successfully!");
+            }
+            
+            // Save current chat
+            function saveCurrentChat() {
+                if (messages.length === 0) {
+                    console.log("📭 No messages to save.");
+                    return;
+                }
+                
+                console.log("💾 Saving chat with ID:", currentChatId, "Messages:", messages.length);
+                
+                // Find if chat already exists
+                const existingIndex = chatHistory.findIndex(chat => chat.id === currentChatId);
+                
+                // Create chat title from first message
+                let chatTitle = "New Chat";
+                if (messages.length > 0 && messages[0].text) {
+                    chatTitle = messages[0].text.length > 30 ? 
+                               messages[0].text.substring(0, 30) + '...' : 
+                               messages[0].text;
+                }
+                
+                if (existingIndex !== -1) {
+                    // Update existing chat
+                    chatHistory[existingIndex] = {
+                        id: currentChatId,
+                        messages: [...messages],
+                        timestamp: Date.now(),
+                        title: chatTitle
+                    };
+                    console.log("📝 Updated existing chat.");
+                } else {
+                    // Add new chat
+                    chatHistory.push({
+                        id: currentChatId,
+                        messages: [...messages],
+                        timestamp: Date.now(),
+                        title: chatTitle
+                    });
+                    console.log("➕ Added new chat to history.");
+                }
+                
+                // Save to localStorage
+                saveChats();
+                
+                // Update recent chats list
+                updateRecentChatsList();
+                
+                console.log("✅ Chat saved successfully to recent chats.");
+            }
+            
+            // Load saved chat
+            function loadSavedChat(chatId) {
+                console.log("📂 Loading chat:", chatId);
+                
+                const chat = chatHistory.find(c => c.id === chatId);
+                if (!chat) {
+                    console.log("❌ Chat not found!");
+                    return;
+                }
+                
+                // Set current chat
+                currentChatId = chatId;
+                messages = [...chat.messages];
+                
+                // Hide welcome screen, show messages
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('messagesContainer').style.display = 'block';
+                
+                // Clear and display messages
+                const messagesContainer = document.getElementById('messagesContainer');
+                messagesContainer.innerHTML = '';
+                
+                chat.messages.forEach(msg => {
+                    addMessageToContainer(msg.text, msg.sender);
+                });
+                
+                // Auto focus on message input
+                setTimeout(() => {
+                    document.getElementById('messageInput').focus();
+                    scrollToBottom();
+                }, 100);
+                
+                console.log("✅ Chat loaded successfully.");
+            }
+            
+            // Add message to container
+            function addMessageToContainer(text, sender) {
+                const messagesContainer = document.getElementById('messagesContainer');
+                const messageDiv = document.createElement('div');
+                
+                if (sender === 'user') {
+                    messageDiv.className = 'message user-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar user-avatar">
+                            <i class="fas fa-user avatar-icon"></i>
+                        </div>
+                        <div class="message-bubble user-bubble">${text}</div>
+                    `;
+                } else {
+                    messageDiv.className = 'message ai-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar ai-avatar">
+                            <i class="fas fa-robot avatar-icon"></i>
+                        </div>
+                        <div class="message-bubble ai-bubble">${text}</div>
+                    `;
+                }
+                
+                messagesContainer.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            // Send message function
+            function sendMessage() {
+                const input = document.getElementById('messageInput');
+                const userMessage = input.value.trim();
+                
+                if (!userMessage) {
+                    console.log("⚠️ Empty message, not sending.");
+                    return;
+                }
+                
+                console.log("📤 Sending message:", userMessage);
+                
+                // If NO chat exists, let newChat handle it
+                if (currentChatId === null) {
+                    console.log("⚠️ No active chat. Creating new chat first...");
+                    newChat();
+                    setTimeout(() => {
+                        sendMessageHelper(userMessage);
+                    }, 100);
+                    return;
+                }
+                
+                sendMessageHelper(userMessage);
+            }
+            
+            // Helper function to send message
+            function sendMessageHelper(userMessage) {
+                const input = document.getElementById('messageInput');
+                
+                // If welcome screen is shown, hide it
+                if (document.getElementById('welcomeScreen').style.display !== 'none') {
+                    document.getElementById('welcomeScreen').style.display = 'none';
+                    document.getElementById('messagesContainer').style.display = 'block';
+                }
+                
+                // Add user message
+                addMessage(userMessage, 'user');
+                input.value = '';
+                input.style.height = 'auto';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Send to AI API
+                processAIResponse(userMessage);
+            }
+            
+            // Process AI response
+            async function processAIResponse(userMessage) {
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: userMessage,
+                            chatId: currentChatId
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    removeTypingIndicator();
+                    
+                    if (data.success && data.response) {
+                        addMessage(data.response, 'ai');
+                    } else {
+                        // Fallback to local response
+                        const localResponse = getLocalAIResponse(userMessage);
+                        addMessage(localResponse, 'ai');
+                    }
+                    
+                    saveCurrentChat();
+                    
+                    // Auto focus back to input
+                    setTimeout(() => {
+                        document.getElementById('messageInput').focus();
+                        scrollToBottom();
+                    }, 100);
+                    
+                } catch (error) {
+                    console.error("Error getting AI response:", error);
+                    removeTypingIndicator();
+                    
+                    // Fallback to local response
+                    const localResponse = getLocalAIResponse(userMessage);
+                    addMessage(localResponse, 'ai');
+                    saveCurrentChat();
+                    
+                    setTimeout(() => {
+                        document.getElementById('messageInput').focus();
+                        scrollToBottom();
+                    }, 100);
+                }
+            }
+            
+            // Add message (push to messages array)
+            function addMessage(text, sender) {
+                const messagesContainer = document.getElementById('messagesContainer');
+                const messageDiv = document.createElement('div');
+                
+                if (sender === 'user') {
+                    messageDiv.className = 'message user-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar user-avatar">
+                            <i class="fas fa-user avatar-icon"></i>
+                        </div>
+                        <div class="message-bubble user-bubble">${text}</div>
+                    `;
+                } else {
+                    messageDiv.className = 'message ai-message';
+                    messageDiv.innerHTML = `
+                        <div class="message-avatar ai-avatar">
+                            <i class="fas fa-robot avatar-icon"></i>
+                        </div>
+                        <div class="message-bubble ai-bubble">${text}</div>
+                    `;
+                }
+                
+                messagesContainer.appendChild(messageDiv);
+                
+                // Push message to array
+                messages.push({text, sender});
+                
+                // Scroll to bottom
+                scrollToBottom();
+            }
+            
+            // Show typing indicator
+            function showTypingIndicator() {
+                const messagesContainer = document.getElementById('messagesContainer');
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typingIndicator';
+                typingDiv.className = 'message ai-message';
+                typingDiv.innerHTML = `
+                    <div class="message-avatar ai-avatar">
+                        <i class="fas fa-robot avatar-icon"></i>
+                    </div>
+                    <div class="message-bubble ai-bubble">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                
+                messagesContainer.appendChild(typingDiv);
+                scrollToBottom();
+            }
+            
+            // Remove typing indicator
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) typingIndicator.remove();
+            }
+            
+            // Local AI response (fallback)
+            function getLocalAIResponse(userMessage) {
+                const msg = userMessage.toLowerCase();
+                
+                // Enhanced local responses
+                if (msg.includes("ethio ai") || msg.includes("ethioai")) {
+                    return "Ani ETHIO AI dha - Artificial Intelligence kan Ethiopia fi Afaan Oromoo irratti xiyyada qabu. Maqaan koo ETHIO AI dha. Waan technologies, Ethiopia history, culture nan beeka. Waan barbaadde na gaafadhu siif nan deebisa!";
+                }
+                
+                // Technology responses
+                if (msg.includes("python")) {
+                    return "Python afaan programming universal #1 dha. AI, machine learning (TensorFlow, PyTorch), web development (Django, Flask, FastAPI), data science (NumPy, Pandas), automation, scripting. Python 100% beeka: syntax, libraries, frameworks, best practices!";
+                }
+                
+                if (msg.includes("javascript") || msg.includes("js")) {
+                    return "JavaScript afaan web #1 dha. Frontend (React, Angular, Vue), Backend (Node.js, Express), Mobile (React Native, Ionic), Desktop (Electron). ES6+, TypeScript, async/await, promises, modules - HUNDAA BEEKU!";
+                }
+                
+                if (msg.includes("java")) {
+                    return "Java afaan enterprise #1 dha. Android apps (Kotlin waliin), Spring Boot (microservices), Hibernate (ORM), Maven/Gradle. OOP, multithreading, design patterns, JVM - HUNDAA BEEKU!";
+                }
+                
+                // Ethiopian languages
+                if (msg.includes("oromo") || msg.includes("afaan oromoo")) {
+                    return "Afaan Oromoo afaan Cushitic kan 40+ million dubbatu. Oromia (Ethiopia), Kenya keessatti. Latin script (Qubee) fayyadama. Gadaa system, Irreecha festival, rich oral literature. Ani Afaan Oromoo 100% beeka!";
+                }
+                
+                if (msg.includes("amharic") || msg.includes("አማርኛ")) {
+                    return "Amharic (አማርኛ) afaan Ethiopia federal dha. 32+ million dubbatu. Ge'ez script (Fidel) fayyadama - 33×7 characters. Rich literature, religious texts. Grammar, vocabulary, culture - HUNDAA BEEKU!";
+                }
+                
+                // Ethiopia knowledge
+                if (msg.includes("ethiopia") || msg.includes("ኢትዮጵያ")) {
+                    return "Ethiopia (ኢትዮጵያ) biyya Afrikaa Horn keessatti. Seenaa 3000+ years: Aksumite Empire, Lalibela, Adwa victory (1896). Aadaa: Orthodox Christianity, Islam, traditional beliefs. Qarshii: coffee #1 export, GERD dam. Ani Ethiopia HUNDAA BEEKU!";
+                }
+                
+                // General responses
+                if (msg.includes("akkam") || msg.includes("hello") || msg.includes("hi")) {
+                    return "Akkam! Nagaan koo gaarii dha 😊 Ani ETHIO AI dha  Ati hoo? Maal si gargaaruu danda'a? Technology, programming, Ethiopian languages, history, culture .";
+                }
+                
+                if (msg.includes("galato") || msg.includes("thank")) {
+                    return "Waan hundaaf barrii! 😊 Ani ETHIO AI dha - professional AI assistant. Technology, Ethiopian languages, Ethiopia knowledge - HUNDA BEEKU. Deebi'an gaaffiin biraa qabaatte na dhaqabaa!";
+                }
+
+                if(msg.includes("eennutu sitolche") || msg.includes("thank")) {
+                    return "ana kan na tolche ykn kan uume jiraataa magaalaa balee gasgaar kan tahe namaa maqaan isaa yusuf nesredin jedhamuudhaan bara 2018 akka lakkofsa ethiopiaatti kan tolfameedha kana malees namni maqaan isaa armaan olitti ibsamuuf yaalame kuni software enginer fi ai devloper kantaheedha.";
+                }      
+                // Default professional response
+                const responses = [
+                    `"${userMessage}" jedhu irratti deebii sirrii siif kennuuf yaala. Ani ETHIO AI dha - https://EthioAI.com. Waan technologies HUNDAA, afaanota Ethiopiaa HUNDAA, seenaa Ethiopiaa HUNDAA, fi sagantaa barreessuu HUNDAA beeka.`,
+                    `Waa'ee "${userMessage}" nan hubadha. Ani waan HUNDAA beeka: Python, JavaScript, Java, React, Docker, AWS, Amharic, Tigrinya, Somali, seenaa Ethiopia 3000+ years, aadaa Oromo - HUNDAA! Professional AI assistant dha.`,
+                    `Deebiin koo: "${userMessage}" akkaataa professional-tiin ilaaluu danda'a. Technology, programming, Ethiopian languages, history, culture - HUNDA BEEKU. Ani ETHIO AI dha - 100% Afaan Oromoo, 100% knowledge.`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            function handleKeyPress(event) {
+                const textarea = event.target;
+                
+                // Auto-resize textarea
+                textarea.style.height = 'auto';
+                textarea.style.height = (textarea.scrollHeight) + 'px';
+                
+                // Send on Enter (without Shift)
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            }
+            
+            function scrollToBottom() {
+                const container = document.querySelector('.chat-container');
+                if (container) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            }
+            
+            // Settings functions
+            function openSettings() {
+                document.getElementById('settingsModal').style.display = 'flex';
+                setActiveMenu(document.querySelectorAll('.menu-item')[1]);
+            }
+            
+            function closeSettings() {
+                document.getElementById('settingsModal').style.display = 'none';
+                setActiveMenu(document.querySelectorAll('.menu-item')[0]);
+            }
+            
+            function setActiveMenu(clickedItem) {
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedItem.classList.add('active');
+            }
+            
+            function toggleDarkMode() {
+                const body = document.body;
+                const darkModeToggle = document.getElementById('darkModeToggle');
+                const lightModeToggle = document.getElementById('lightModeToggle');
+                
+                if (darkModeToggle.checked) {
+                    body.classList.add('dark-mode');
+                    lightModeToggle.checked = false;
+                    localStorage.setItem('ethio_ai_theme', 'dark');
+                } else if (lightModeToggle.checked) {
+                    body.classList.remove('dark-mode');
+                    darkModeToggle.checked = false;
+                    localStorage.setItem('ethio_ai_theme', 'light');
+                }
+            }
+            
+            function clearChatHistory() {
+                if (confirm("Are you sure you want to clear all chat history? This action cannot be undone.")) {
+                    localStorage.removeItem('ethio_ai_chats');
+                    chatHistory = [];
+                    updateRecentChatsList();
+                    newChat();
+                    alert("Chat history cleared successfully!");
+                }
+            }
+            
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("🚀 ETHIO AI Professional Version initializing...");
+                console.log("🌐 Website: https://EthioAI.com");
+                
+                // Load saved chats
+                loadSavedChats();
+                
+                // Load theme
+                const savedTheme = localStorage.getItem('ethio_ai_theme') || 'light';
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('darkModeToggle').checked = true;
+                    document.getElementById('lightModeToggle').checked = false;
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.getElementById('lightModeToggle').checked = true;
+                    document.getElementById('darkModeToggle').checked = false;
+                }
+                
+                // Set up toggle listeners
+                document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
+                document.getElementById('lightModeToggle').addEventListener('change', toggleDarkMode);
+                
+                // Auto-focus on message input
+                document.getElementById('messageInput').focus();
+                
+                // Handle menu item clicks
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        setActiveMenu(this);
+                    });
+                });
+                
+                // Do not auto start new chat
+                currentChatId = null;
+                messages = [];
+                
+                // Show status
+                const statusIndicator = document.getElementById('statusIndicator');
+                statusIndicator.innerHTML = '<div class="status-dot"></div><span></span>';
+                
+                console.log("✅ ETHIO AI Professional Version initialized successfully!");
+            });
+        </script>
+    </body>
+    </html>
+    '''
