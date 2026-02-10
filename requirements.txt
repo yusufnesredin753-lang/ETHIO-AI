@@ -1,0 +1,7 @@
+flask
+wikipedia
+arxiv
+requests
+deep-translator
+beautifulsoup4
+gunicorn
